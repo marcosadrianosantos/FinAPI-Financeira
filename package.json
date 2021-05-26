@@ -4,7 +4,8 @@
   "description": "API financeira para estudos",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,10 @@
   "bugs": {
     "url": "https://github.com/marcosadrianosantos/FinAPI-Financeira/issues"
   },
-  "homepage": "https://github.com/marcosadrianosantos/FinAPI-Financeira#readme"
+  "homepage": "https://github.com/marcosadrianosantos/FinAPI-Financeira#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7",
+    "uuid": "^8.3.2"
+  }
 }
