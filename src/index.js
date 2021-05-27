@@ -13,6 +13,21 @@ const customers = [];
  * id - uuid
  * statement []
  */
+
+//Middleware
+function verifyIfExistsAccountCPF(request, response, next){
+    const { cpf } = request.headers;
+
+    const customer = customers.find(
+        (customers) => customers.cpf === cpf);
+
+    if(!customer)
+        return response.status(400).json({error: "Usuário não existe!"});
+
+    request.customer = customer;
+    return next();
+}
+
 app.post("/account", (request, response) =>{
     const { cpf, name } = request.body;
 
@@ -33,16 +48,20 @@ app.post("/account", (request, response) =>{
     return response.status(201).send();
 });
 
-app.get("/statement", (request, response) =>{
+//usa está versão de usar a chamada do MiddleWare quando eu desejo que todas rotas utilizem desta função
+// app.use(verifyIfExistsAccountCPF);
+
+app.get("/statement", verifyIfExistsAccountCPF, (request, response) =>{
     // const { cpf } = request.params;
-    const { cpf } = request.headers;
+//     const { cpf } = request.headers;
 
-// find é usado quando precisamos retornar todo o objeto
-    const customer = customers.find(
-        (customers) => customers.cpf === cpf);
+// // find é usado quando precisamos retornar todo o objeto
+//     const customer = customers.find(
+//         (customers) => customers.cpf === cpf);
 
-    if(!customer)
-        return response.status(400).json({error: "Usuário não existe!"});
+    // if(!customer)
+    //     return response.status(400).json({error: "Usuário não existe!"});
+    const { customer } = request;
 
     return response.json(customer.statement);
 });
